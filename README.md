@@ -15,7 +15,7 @@ The thesis uses sparse autoencoders (SAEs) to split a model's internal activatio
 
 ## What is done
 
-These experiments are Het Patel's. They run on **Llama-3.1-8B** (Llama Scope SAEs, 32k features) and **Gemma-2-9B** (Gemma Scope SAEs, 16k features). Questions come from multiple-choice benchmarks (MMLU, RACE, ARC). Each question is scored for correctness and for how peaked the model's answer distribution is (entropy).
+The finished experiments run on **Llama-3.1-8B** (Llama Scope SAEs, 32k features) and **Gemma-2-9B** (Gemma Scope SAEs, 16k features). Questions come from multiple-choice benchmarks (MMLU, RACE, ARC). Each question is scored for correctness and for how peaked the model's answer distribution is (entropy).
 
 That split produces three kinds of features:
 
@@ -43,7 +43,7 @@ Evaluation sets are built from FaithEval-Counterfactual (answer in the context v
 
 ## How the method works
 
-This is Het Patel's intervention. At a chosen layer, the residual stream is encoded by a pretrained SAE. Target features are zeroed (or scaled). The edit is applied as a delta on the original hidden state, so the SAE's reconstruction error cancels out and only the chosen features change. Discovery and validation use separate question splits. The random seed is 42.
+At a chosen layer, the residual stream is encoded by a pretrained SAE. Target features are zeroed (or scaled). The edit is applied as a delta on the original hidden state, so the SAE's reconstruction error cancels out and only the chosen features change. Discovery and validation use separate question splits. The random seed is 42.
 
 Pipeline, in order:
 

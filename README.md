@@ -3,56 +3,44 @@
 Master's thesis of **Arleen Kaur**, University of California, Riverside.  
 Advisor: **Professor Evangelos Papalexakis**.
 
-This repository is the code and experimental record for that thesis. It builds on work by **Het Patel**: the SAE intervention pipeline and the finished uncertainty results below are his, from [*LLMs Encode When They're Wrong: Dissociating Uncertainty and Incorrectness via Sparse Autoencoders*](https://github.com/HettyPatel/sae-uncertainty). The thesis keeps that pipeline and extends it to contextual faithfulness.
+## The problem
 
-The question carried over from his project is whether we can tell, from inside a model, the difference between "the model is unsure" and "the model is confidently wrong" — and whether those signals can be edited.
+A language model can be wrong in more than one way. It can be unsure. It can be confidently wrong. Or it can ignore a passage it was just given and answer from memory instead.
 
-## Goal
+Those failures get treated as one problem: the model "hallucinated." They do not look like one problem from inside the network. This thesis asks whether sparse autoencoders (SAEs) can separate those signals into features, and whether turning the features up or down changes what the model does.
 
-Large language models often sound sure of answers that are false. Uncertainty (the model hedges) and incorrectness (the model is wrong) get treated as the same problem. They are not.
+## Where this starts
 
-The thesis uses sparse autoencoders (SAEs) to split a model's internal activations into interpretable features, then tests what those features actually do. The aim is a feature-level account of when a model is uncertain, when it is wrong, and — in the work underway now — when it is ignoring the evidence in front of it.
+**Het Patel** showed that uncertainty and incorrectness are already separable. Using pretrained SAEs on Llama-3.1-8B and Gemma-2-9B, he split multiple-choice questions (MMLU, RACE, ARC) by correctness and by how peaked the answer distribution is, then suppressed the features that marked each group. On Llama-3.1-8B, MMLU validation (7,021 questions; baseline accuracy 61.91%, mean entropy 0.824):
 
-## What is done
+- Suppressing uncertainty features drops accuracy by 13.4%. The model needs them to answer correctly.
+- Suppressing incorrectness features changes accuracy by +0.03%. Those features track errors and do not cause them.
+- Suppressing screened confounded features (55 of 102) raises accuracy by 1.10% and cuts mean entropy by 0.619, about 75%. A matched random-feature control moves accuracy by +0.04%.
 
-The finished experiments run on **Llama-3.1-8B** (Llama Scope SAEs, 32k features) and **Gemma-2-9B** (Gemma Scope SAEs, 16k features). Questions come from multiple-choice benchmarks (MMLU, RACE, ARC). Each question is scored for correctness and for how peaked the model's answer distribution is (entropy).
+The same confounded features transfer across datasets (MMLU → ARC +0.81%, MMLU → RACE +0.70%, RACE → MMLU +0.75%) and the split replicates on Gemma-2-9B. That study is [*LLMs Encode When They're Wrong: Dissociating Uncertainty and Incorrectness via Sparse Autoencoders*](https://github.com/HettyPatel/sae-uncertainty). This thesis keeps his intervention pipeline and asks the question he did not: what happens when the model has a source it should follow.
 
-That split produces three kinds of features:
+## What this thesis adds
 
-- **Uncertainty features** fire when the model is correct but unsure.
-- **Incorrectness features** fire when the model is confidently wrong.
-- **Confounded features** fire in both cases, so the two signals are mixed.
+The new setting is **contextual faithfulness**. The model is given a passage whose answer disagrees with what it memorized. A faithful answer follows the passage. A memory answer follows the weights.
 
-Suppressing a feature and re-running the model shows what it is causally doing, not just what it correlates with. On Llama-3.1-8B, MMLU validation (7,021 questions; baseline accuracy 61.91%, mean entropy 0.824), suppressing each population has a different effect:
+The experiments test whether SAE features found on that contrast can be scaled so the model moves toward the passage. Evaluation sets are built from FaithEval-Counterfactual and RAGTruth. Each run has a success test fixed before looking at the held-out split: the effect has to beat frequency-matched random features, not just move in the hoped-for direction. Those runs are underway and are not reported here yet.
 
-- **Uncertainty features are necessary.** Suppressing them drops accuracy by 13.4%.
-- **Incorrectness features are passengers.** Suppressing them changes accuracy by +0.03% and leaves entropy essentially unchanged.
-- **Confounded features are harmful.** Suppressing the subset that survives screening (55 of 102) raises accuracy by 1.10% and cuts mean entropy by 0.619, about 75%.
+Code for this part of the thesis:
 
-A random-feature control matched to that confounded set moves accuracy by +0.04% and entropy by −0.005, so the gain is not from suppressing arbitrary features.
+- `scripts/create_faitheval_eval_set.py` and `scripts/create_ragtruth_eval_set.py` build the eval sets, with discovery and validation splits.
+- `scripts/faith_gap.py` finds passage-following and memory features and intervenes on them.
+- `src/model.py` and `src/utils.py` score eval sets with however many answer choices the set actually has.
 
-The same confounded features transfer across datasets: MMLU → ARC (+0.81% accuracy), MMLU → RACE (+0.70%), RACE → MMLU (+0.75%). The dissociation replicates on Gemma-2-9B.
+## How a run works
 
-Follow-up checks already in the repo: random-feature controls, screening-criterion ablations, linear probes that predict correctness and entropy from SAE features, selective prediction (abstain when the probe is unsure), and a self-abstention setup that adds an "I don't know" option.
-
-## What is in progress
-
-The current chapter, which is this thesis, moves from multiple-choice confidence to **contextual faithfulness**. The question is whether SAE features can be turned up or down so the model follows a provided passage instead of an answer stored in its weights. It uses Het Patel's SAE editing method on new data.
-
-Evaluation sets are built from FaithEval-Counterfactual (answer in the context vs. the model's memorized answer) and RAGTruth. Each run has a pre-specified success test against frequency-matched random features. Those runs are underway and are not reported here yet.
-
-## How the method works
-
-At a chosen layer, the residual stream is encoded by a pretrained SAE. Target features are zeroed (or scaled). The edit is applied as a delta on the original hidden state, so the SAE's reconstruction error cancels out and only the chosen features change. Discovery and validation use separate question splits. The random seed is 42.
-
-Pipeline, in order:
+At a chosen layer, the residual stream is encoded by a pretrained SAE. Target features are zeroed or scaled. The edit is applied as a delta on the original hidden state, so the SAE's reconstruction error cancels out and only the chosen features change. Discovery and validation use separate questions. The random seed is 42.
 
 1. Cache SAE activations for every question and layer.
-2. Test each feature (Mann-Whitney U) to label it as uncertainty, incorrectness, or confounded.
-3. Suppress features one at a time and keep those that do not hurt accuracy and that lower entropy.
-4. Suppress the kept set together on held-out questions.
+2. Test each feature and label it.
+3. Edit the selected features.
+4. Measure the change on held-out questions, against a random-feature control.
 
-Implementation notes for the pipeline live in [`experiments/README.md`](experiments/README.md). Model and SAE settings are in [`configs/models.yaml`](configs/models.yaml).
+Details of the original pipeline are in [`experiments/README.md`](experiments/README.md). Model and SAE settings are in [`configs/models.yaml`](configs/models.yaml).
 
 ## Skills this project uses
 

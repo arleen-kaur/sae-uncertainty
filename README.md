@@ -3,7 +3,9 @@
 Master's thesis of **Arleen Kaur**, University of California, Riverside.  
 Advisor: **Professor Evangelos Papalexakis**.
 
-This repository is the code and experimental record for that thesis. It studies a practical question: can we tell, from inside a model, the difference between "the model is unsure" and "the model is confidently wrong" — and can we edit those signals?
+This repository is the code and experimental record for that thesis. It builds on work by **Het Patel**: the SAE intervention pipeline and the finished uncertainty results below are his, from [*LLMs Encode When They're Wrong: Dissociating Uncertainty and Incorrectness via Sparse Autoencoders*](https://github.com/HettyPatel/sae-uncertainty). The thesis keeps that pipeline and extends it to contextual faithfulness.
+
+The question carried over from his project is whether we can tell, from inside a model, the difference between "the model is unsure" and "the model is confidently wrong" — and whether those signals can be edited.
 
 ## Goal
 
@@ -13,7 +15,7 @@ The thesis uses sparse autoencoders (SAEs) to split a model's internal activatio
 
 ## What is done
 
-The finished experiments run on **Llama-3.1-8B** (Llama Scope SAEs, 32k features) and **Gemma-2-9B** (Gemma Scope SAEs, 16k features). Questions come from multiple-choice benchmarks (MMLU, RACE, ARC). Each question is scored for correctness and for how peaked the model's answer distribution is (entropy).
+These experiments are Het Patel's. They run on **Llama-3.1-8B** (Llama Scope SAEs, 32k features) and **Gemma-2-9B** (Gemma Scope SAEs, 16k features). Questions come from multiple-choice benchmarks (MMLU, RACE, ARC). Each question is scored for correctness and for how peaked the model's answer distribution is (entropy).
 
 That split produces three kinds of features:
 
@@ -35,13 +37,13 @@ Follow-up checks already in the repo: random-feature controls, screening-criteri
 
 ## What is in progress
 
-The current chapter moves from multiple-choice confidence to **contextual faithfulness**. The question is whether SAE features can be turned up or down so the model follows a provided passage instead of an answer stored in its weights.
+The current chapter, which is this thesis, moves from multiple-choice confidence to **contextual faithfulness**. The question is whether SAE features can be turned up or down so the model follows a provided passage instead of an answer stored in its weights. It uses Het Patel's SAE editing method on new data.
 
-Evaluation sets are built from FaithEval-Counterfactual (answer in the context vs. the model's memorized answer) and RAGTruth. The intervention reuses the same SAE editing method, with a pre-specified success test against frequency-matched random features. Those runs are underway and are not reported here yet.
+Evaluation sets are built from FaithEval-Counterfactual (answer in the context vs. the model's memorized answer) and RAGTruth. Each run has a pre-specified success test against frequency-matched random features. Those runs are underway and are not reported here yet.
 
 ## How the method works
 
-At a chosen layer, the residual stream is encoded by a pretrained SAE. Target features are zeroed (or scaled). The edit is applied as a delta on the original hidden state, so the SAE's reconstruction error cancels out and only the chosen features change. Discovery and validation use separate question splits. The random seed is 42.
+This is Het Patel's intervention. At a chosen layer, the residual stream is encoded by a pretrained SAE. Target features are zeroed (or scaled). The edit is applied as a delta on the original hidden state, so the SAE's reconstruction error cancels out and only the chosen features change. Discovery and validation use separate question splits. The random seed is 42.
 
 Pipeline, in order:
 

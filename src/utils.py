@@ -19,6 +19,26 @@ def load_eval_set(filepath: str):
     return data['samples']
 
 
+def get_eval_letters(samples) -> list:
+    """Answer letters used by an eval set, read from each sample's `options` keys.
+
+    Falls back to A/B/C/D when samples carry no `options` (original MCQ sets, which
+    always have exactly four options, so behaviour there is unchanged).
+    """
+    letters = None
+    for s in samples:
+        opts = s.get('options')
+        if not opts or not isinstance(opts, dict):
+            # no options, or a plain list of option texts (ARC / FaithEval sets): A-D, as before
+            return ['A', 'B', 'C', 'D']
+        keys = sorted(opts.keys())
+        if letters is None:
+            letters = keys
+        elif keys != letters:
+            raise ValueError(f"Inconsistent option letters in eval set: {letters} vs {keys}")
+    return letters or ['A', 'B', 'C', 'D']
+
+
 def parse_layer_list(spec: str) -> list:
     layers = set()
     for part in spec.split(','):

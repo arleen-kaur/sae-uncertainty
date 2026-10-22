@@ -23,7 +23,7 @@ from datetime import datetime
 import argparse
 import gc
 
-from src.utils import seed_everything, load_eval_set
+from src.utils import seed_everything, load_eval_set, get_eval_letters
 from src.model import load_model, get_letter_token_ids, get_default_sae_layers
 from src.sae import SAESuppressionHook, load_sae
 from src.quadrant import load_both_features
@@ -87,7 +87,8 @@ def main():
         print("No 'both' features found. Exiting.")
         return
 
-    letter_token_ids = get_letter_token_ids(tokenizer)
+    letter_token_ids = get_letter_token_ids(
+        tokenizer, get_eval_letters(selection_set + validation_set))
     print(f"Letter token IDs: {letter_token_ids}")
 
     # =========================================================================

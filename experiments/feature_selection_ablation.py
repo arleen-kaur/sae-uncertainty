@@ -27,7 +27,7 @@ from collections import defaultdict
 import argparse
 import gc
 
-from src.utils import seed_everything, load_eval_set
+from src.utils import seed_everything, load_eval_set, get_eval_letters
 from src.model import load_model, get_letter_token_ids
 from src.sae import SAESuppressionHook, load_sae
 from src.evaluation import run_eval, summarise, compute_flips
@@ -93,10 +93,10 @@ def main():
     # Load model
     print(f"\nLoading model: {args.model}")
     model, tokenizer, model_config = load_model(args.model, device=args.device)
-    letter_token_ids = get_letter_token_ids(tokenizer)
 
     # Load validation set
     validation_set = load_eval_set(args.validation_set)
+    letter_token_ids = get_letter_token_ids(tokenizer, get_eval_letters(validation_set))
 
     # Baseline
     print(f"\nBaseline (validation set, no suppression)")

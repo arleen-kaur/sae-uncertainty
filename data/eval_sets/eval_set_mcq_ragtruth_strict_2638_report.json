@@ -1,0 +1,206 @@
+{
+  "args": {
+    "dataset_dir": "/home/csgrads/akaur082/thesis/ragtruth/dataset",
+    "output_dir": "data/eval_sets",
+    "label_mode": "strict",
+    "balance": "model",
+    "no_length_match": "False",
+    "discovery_frac": "0.6",
+    "smoke_n": "300",
+    "seed": "42"
+  },
+  "report": {
+    "all": {
+      "n": 2638,
+      "n_questions": 961,
+      "n_hallucinated": 1319,
+      "n_clean": 1319,
+      "correct_letter_counts": {
+        "A": 1314,
+        "B": 1324
+      },
+      "response_words_median_clean": 142,
+      "response_words_median_halluc": 147,
+      "passage_words_median_clean": 232,
+      "passage_words_median_halluc": 216,
+      "length_auc_halluc_vs_clean": 0.5246987948344629,
+      "model_majority_baseline_acc": 0.5,
+      "by_source_model": {
+        "gpt-3.5-turbo-0613": {
+          "clean": 48,
+          "hallucinated": 48
+        },
+        "gpt-4-0613": {
+          "clean": 30,
+          "hallucinated": 30
+        },
+        "llama-2-13b-chat": {
+          "clean": 291,
+          "hallucinated": 291
+        },
+        "llama-2-70b-chat": {
+          "clean": 242,
+          "hallucinated": 242
+        },
+        "llama-2-7b-chat": {
+          "clean": 416,
+          "hallucinated": 416
+        },
+        "mistral-7B-instruct": {
+          "clean": 292,
+          "hallucinated": 292
+        }
+      },
+      "label_types": {
+        "Evident Conflict": 333,
+        "Evident Baseless Info": 1015,
+        "Subtle Baseless Info": 223,
+        "Subtle Conflict": 39
+      }
+    },
+    "discovery": {
+      "n": 1619,
+      "n_questions": 577,
+      "n_hallucinated": 804,
+      "n_clean": 815,
+      "correct_letter_counts": {
+        "A": 817,
+        "B": 802
+      },
+      "response_words_median_clean": 140,
+      "response_words_median_halluc": 149.0,
+      "passage_words_median_clean": 234,
+      "passage_words_median_halluc": 217.0,
+      "length_auc_halluc_vs_clean": 0.5429630986173427,
+      "model_majority_baseline_acc": 0.5114268066707844,
+      "by_source_model": {
+        "gpt-3.5-turbo-0613": {
+          "clean": 29,
+          "hallucinated": 28
+        },
+        "gpt-4-0613": {
+          "clean": 14,
+          "hallucinated": 15
+        },
+        "llama-2-13b-chat": {
+          "clean": 190,
+          "hallucinated": 169
+        },
+        "llama-2-70b-chat": {
+          "clean": 151,
+          "hallucinated": 150
+        },
+        "llama-2-7b-chat": {
+          "clean": 245,
+          "hallucinated": 257
+        },
+        "mistral-7B-instruct": {
+          "clean": 186,
+          "hallucinated": 185
+        }
+      },
+      "label_types": {
+        "Evident Conflict": 208,
+        "Evident Baseless Info": 610,
+        "Subtle Baseless Info": 144,
+        "Subtle Conflict": 21
+      }
+    },
+    "validation": {
+      "n": 1019,
+      "n_questions": 384,
+      "n_hallucinated": 515,
+      "n_clean": 504,
+      "correct_letter_counts": {
+        "B": 522,
+        "A": 497
+      },
+      "response_words_median_clean": 147.0,
+      "response_words_median_halluc": 145,
+      "passage_words_median_clean": 227.5,
+      "passage_words_median_halluc": 214,
+      "length_auc_halluc_vs_clean": 0.49543650793650795,
+      "model_majority_baseline_acc": 0.5181550539744848,
+      "by_source_model": {
+        "gpt-3.5-turbo-0613": {
+          "clean": 19,
+          "hallucinated": 20
+        },
+        "gpt-4-0613": {
+          "clean": 16,
+          "hallucinated": 15
+        },
+        "llama-2-13b-chat": {
+          "clean": 101,
+          "hallucinated": 122
+        },
+        "llama-2-70b-chat": {
+          "clean": 91,
+          "hallucinated": 92
+        },
+        "llama-2-7b-chat": {
+          "clean": 171,
+          "hallucinated": 159
+        },
+        "mistral-7B-instruct": {
+          "clean": 106,
+          "hallucinated": 107
+        }
+      },
+      "label_types": {
+        "Evident Baseless Info": 405,
+        "Evident Conflict": 125,
+        "Subtle Baseless Info": 79,
+        "Subtle Conflict": 18
+      }
+    },
+    "smoke": {
+      "n": 300,
+      "n_questions": 243,
+      "n_hallucinated": 155,
+      "n_clean": 145,
+      "correct_letter_counts": {
+        "A": 161,
+        "B": 139
+      },
+      "response_words_median_clean": 127,
+      "response_words_median_halluc": 154,
+      "passage_words_median_clean": 226,
+      "passage_words_median_halluc": 219,
+      "length_auc_halluc_vs_clean": 0.6403781979977753,
+      "model_majority_baseline_acc": 0.54,
+      "by_source_model": {
+        "gpt-3.5-turbo-0613": {
+          "clean": 5,
+          "hallucinated": 4
+        },
+        "gpt-4-0613": {
+          "clean": 1,
+          "hallucinated": 0
+        },
+        "llama-2-13b-chat": {
+          "clean": 30,
+          "hallucinated": 35
+        },
+        "llama-2-70b-chat": {
+          "clean": 29,
+          "hallucinated": 32
+        },
+        "llama-2-7b-chat": {
+          "clean": 41,
+          "hallucinated": 50
+        },
+        "mistral-7B-instruct": {
+          "clean": 39,
+          "hallucinated": 34
+        }
+      },
+      "label_types": {
+        "Evident Conflict": 40,
+        "Evident Baseless Info": 125,
+        "Subtle Baseless Info": 27,
+        "Subtle Conflict": 1
+      }
+    }
+  }
+}

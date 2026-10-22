@@ -69,10 +69,20 @@ def load_model(model_name: str, device: str = "cuda"):
     return model, tokenizer, config
 
 
-def get_letter_token_ids(tokenizer) -> dict:
-    """Map answer letters A/B/C/D to their token IDs."""
+DEFAULT_LETTERS = ['A', 'B', 'C', 'D']
+
+
+def get_letter_token_ids(tokenizer, letters=None) -> dict:
+    """Map answer letters to their token IDs.
+
+    `letters` defaults to A/B/C/D (original MCQ behaviour). Pass e.g. ['A', 'B']
+    for binary eval sets (see `src.utils.get_eval_letters`). Entropy and
+    prediction code iterate over the returned dict, so any number of options works.
+    """
+    if letters is None:
+        letters = DEFAULT_LETTERS
     letter_token_ids = {}
-    for letter in ['A', 'B', 'C', 'D']:
+    for letter in letters:
         ids = tokenizer.encode(letter, add_special_tokens=False)
         if ids:
             letter_token_ids[letter] = ids[-1]

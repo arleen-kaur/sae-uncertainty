@@ -30,7 +30,7 @@ from datetime import datetime
 import argparse
 import gc
 
-from src.utils import seed_everything, load_eval_set
+from src.utils import seed_everything, load_eval_set, get_eval_letters
 from src.model import load_model, get_letter_token_ids
 from src.sae import SAESuppressionHook, load_sae
 from src.evaluation import run_eval, summarise, compute_flips
@@ -107,7 +107,6 @@ def main():
     # Load model
     print(f"\nLoading model: {args.model}")
     model, tokenizer, model_config = load_model(args.model, device=args.device)
-    letter_token_ids = get_letter_token_ids(tokenizer)
 
     # Load discovery set (for individual screening)
     discovery_samples = load_eval_set(args.discovery_eval_set)
@@ -116,6 +115,9 @@ def main():
     # Load validation set (for final combined evaluation)
     validation_samples = load_eval_set(args.eval_set)
     print(f"Validation set: {len(validation_samples)} samples")
+
+    letter_token_ids = get_letter_token_ids(
+        tokenizer, get_eval_letters(discovery_samples + validation_samples))
 
     # ---- Phase 1: Discovery baseline ----
     print(f"\nDiscovery baseline (no suppression)")

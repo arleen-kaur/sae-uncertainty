@@ -22,7 +22,7 @@ from tqdm import tqdm
 import argparse
 from scipy import stats
 
-from src.utils import seed_everything, load_eval_set, parse_layer_list
+from src.utils import seed_everything, load_eval_set, parse_layer_list, get_eval_letters
 from src.model import load_model, get_letter_token_ids, get_default_sae_layers
 from src.sae import ResidualStreamHook, load_sae
 from src.evaluation import get_predicted_letter, compute_entropy
@@ -62,7 +62,7 @@ def main():
     samples = load_eval_set(args.eval_set)
 
     # Map answer letters to token IDs
-    letter_token_ids = get_letter_token_ids(tokenizer)
+    letter_token_ids = get_letter_token_ids(tokenizer, get_eval_letters(samples))
     print(f"Letter token IDs: {letter_token_ids}")
 
     # =========================================================================
@@ -143,7 +143,7 @@ def main():
 
             nonzero_mask = feat_acts > 0
             nonzero_indices = nonzero_mask.nonzero(as_tuple=True)[0].cpu().numpy()
-            nonzero_values = feat_acts[nonzero_mask].cpu().numpy()
+            nonzero_values = feat_acts[nonzero_mask].float().cpu().numpy()
 
             per_question_data[q_idx]['sae_features'][layer_idx] = {
                 'indices': nonzero_indices,

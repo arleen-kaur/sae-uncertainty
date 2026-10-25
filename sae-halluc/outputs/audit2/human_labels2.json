@@ -1,0 +1,16 @@
+{
+ "human_overrides": {
+  "6": "S",
+  "8": "U",
+  "11": "C",
+  "13": "U",
+  "16": "S",
+  "19": "S",
+  "26": "U",
+  "35": "S"
+ },
+ "ambiguous": {
+  "22": "said 'seems true'",
+  "24": "said 'makes sense' but not in passages"
+ }
+}

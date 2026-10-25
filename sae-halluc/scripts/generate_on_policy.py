@@ -20,13 +20,29 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
-from halluc.data import load_qa_items  # noqa: E402
+from halluc.cleaning import classify, clean_response  # noqa: E402
+from halluc.data import item_category, load_qa_items  # noqa: E402
 
 
-def clean_response(raw):
-    """First line of the continuation (RAGTruth answers are single paragraphs); base models then ramble."""
-    text = raw.lstrip()
-    return text.split("\n")[0].strip()
+def pick_demos(dataset_dir, n, seed):
+    """n clean, short, human-verified-faithful RAGTruth answers from TRAIN questions (never the pilot ones).
+
+    A base model does not follow instructions; shown "prompt, one-paragraph answer, blank line" n times it
+    continues the pattern. Each demo is the original RAGTruth prompt + " " + its answer, exactly as the
+    teacher-forced extraction reads text, so the format matches everything downstream.
+    """
+    by_src = {}
+    for it in load_qa_items(dataset_dir, split="train", quality="good"):
+        if item_category(it) != "clean" or len(it["prompt"]) > 6000:
+            continue
+        if not 12 <= len(it["response"].split()) <= 60 or classify(it["response"], it["question"])[1]:
+            continue
+        by_src.setdefault(it["source_id"], it)
+    ids = sorted(by_src)
+    random.Random(seed).shuffle(ids)
+    if len(ids) < n:
+        raise SystemExit("only %d usable demo answers found, need %d" % (len(ids), n))
+    return [by_src[i] for i in ids[:n]]
 
 
 def main():
@@ -41,6 +57,10 @@ def main():
     ap.add_argument("--max-new-tokens", type=int, default=160)
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--prompt-style", choices=["ragtruth", "oneshot"], default="oneshot",
+                    help="ragtruth = the bare RAGTruth prompt (a base model mostly rambles); "
+                         "oneshot = --n-demos worked examples from train questions placed in front")
+    ap.add_argument("--n-demos", type=int, default=2)
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--output", required=True)
     args = ap.parse_args()
@@ -55,6 +75,13 @@ def main():
     random.Random(args.seed).shuffle(sources)
     sources = sources[:args.n_questions]
     print("%d %s-split questions selected" % (len(sources), args.split))
+
+    prefix, demo_ids = "", []
+    if args.prompt_style == "oneshot":
+        demos = pick_demos(args.dataset_dir, args.n_demos, args.seed)
+        prefix = "".join(d["prompt"].rstrip() + " " + d["response"].strip() + "\n\n" for d in demos)
+        demo_ids = [d["response_id"] for d in demos]
+        print("demos: %s (prefix %d chars)" % (demo_ids, len(prefix)))
 
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -75,7 +102,7 @@ def main():
     with open(str(out_path), "w") as f:
         for i in range(0, len(jobs), args.batch_size):
             batch = jobs[i:i + args.batch_size]
-            prompts = [by_source[sid]["prompt"].rstrip() for sid, _ in batch]
+            prompts = [prefix + by_source[sid]["prompt"].rstrip() for sid, _ in batch]
             enc = tok(prompts, return_tensors="pt", padding=True).to(args.device)
             gen_kwargs = dict(max_new_tokens=args.max_new_tokens, pad_token_id=tok.pad_token_id)
             if args.temperature > 0:
@@ -95,10 +122,11 @@ def main():
                 src = by_source[sid]
                 f.write(json.dumps({
                     "response_id": "onp_%s_%d" % (sid, k), "source_id": sid, "source_model": "llama-3.1-8b-base",
-                    "split": src["split"], "prompt": src["prompt"], "question": src["question"],
+                    "split": src["split"], "prompt": prefix + src["prompt"], "question": src["question"],
                     "passages": src["passages"], "response": resp, "strict_spans": [], "ambiguous_spans": [],
                     "gen": {"raw": raw, "sample": k, "temperature": args.temperature, "top_p": args.top_p,
-                            "max_new_tokens": args.max_new_tokens, "truncated": truncated, "seed": args.seed},
+                            "max_new_tokens": args.max_new_tokens, "truncated": truncated, "seed": args.seed,
+                            "prompt_style": args.prompt_style, "demo_ids": demo_ids},
                 }) + "\n")
             f.flush()
             print("  %d/%d responses" % (min(i + args.batch_size, len(jobs)), len(jobs)))

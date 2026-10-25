@@ -1,0 +1,218 @@
+{
+ "onp_14355_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_only"
+ },
+ "onp_15112_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_15373_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_only"
+ },
+ "onp_15395_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_12367_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_only"
+ },
+ "onp_15501_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_and_minicheck"
+ },
+ "onp_15313_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "all_clean"
+ },
+ "onp_15158_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_and_minicheck"
+ },
+ "onp_12391_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "all_clean"
+ },
+ "onp_12183_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_and_minicheck"
+ },
+ "onp_15497_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_and_minicheck"
+ },
+ "onp_15300_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_15108_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_only"
+ },
+ "onp_14391_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_only"
+ },
+ "onp_15120_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_15552_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_only"
+ },
+ "onp_15238_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_only"
+ },
+ "onp_15455_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_14323_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_15453_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_15390_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "all_clean"
+ },
+ "onp_15533_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_only"
+ },
+ "onp_14458_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_and_minicheck"
+ },
+ "onp_12308_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_15315_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_and_minicheck"
+ },
+ "onp_15438_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_and_minicheck"
+ },
+ "onp_15442_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_15147_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "lynx_and_minicheck"
+ },
+ "onp_14404_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "all_clean"
+ },
+ "onp_14339_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_14375_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_12364_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_14405_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ },
+ "onp_15320_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "all_clean"
+ },
+ "onp_15168_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "all_clean"
+ },
+ "onp_12307_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "minicheck_only"
+ }
+}

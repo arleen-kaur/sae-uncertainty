@@ -1,0 +1,89 @@
+{
+ "n": 599,
+ "judges": [
+  "lettuce",
+  "hhem",
+  "lynx",
+  "minicheck"
+ ],
+ "rates": {
+  "lettuce": 0.12520868113522537,
+  "hhem": 0.10851419031719532,
+  "lynx": 0.2303839732888147,
+  "minicheck": 0.35392320534223703
+ },
+ "pairwise": {
+  "lettuce|hhem": {
+   "n": 599,
+   "both_hallucinated": 49,
+   "both_clean": 508,
+   "only_first": 26,
+   "only_second": 16,
+   "agreement": 0.9298831385642737,
+   "kappa": 0.6605316421535551,
+   "rate_first": 0.12520868113522537,
+   "rate_second": 0.10851419031719532
+  },
+  "lettuce|lynx": {
+   "n": 599,
+   "both_hallucinated": 62,
+   "both_clean": 448,
+   "only_first": 13,
+   "only_second": 76,
+   "agreement": 0.8514190317195326,
+   "kappa": 0.5012396268956936,
+   "rate_first": 0.12520868113522537,
+   "rate_second": 0.2303839732888147
+  },
+  "lettuce|minicheck": {
+   "n": 599,
+   "both_hallucinated": 68,
+   "both_clean": 380,
+   "only_first": 7,
+   "only_second": 144,
+   "agreement": 0.7479131886477463,
+   "kappa": 0.35445675990093684,
+   "rate_first": 0.12520868113522537,
+   "rate_second": 0.35392320534223703
+  },
+  "hhem|lynx": {
+   "n": 599,
+   "both_hallucinated": 56,
+   "both_clean": 452,
+   "only_first": 9,
+   "only_second": 82,
+   "agreement": 0.8480801335559266,
+   "kappa": 0.47414067549707206,
+   "rate_first": 0.10851419031719532,
+   "rate_second": 0.2303839732888147
+  },
+  "hhem|minicheck": {
+   "n": 599,
+   "both_hallucinated": 63,
+   "both_clean": 385,
+   "only_first": 2,
+   "only_second": 149,
+   "agreement": 0.7479131886477463,
+   "kappa": 0.34629200002890936,
+   "rate_first": 0.10851419031719532,
+   "rate_second": 0.35392320534223703
+  },
+  "lynx|minicheck": {
+   "n": 599,
+   "both_hallucinated": 108,
+   "both_clean": 357,
+   "only_first": 30,
+   "only_second": 104,
+   "agreement": 0.7762938230383973,
+   "kappa": 0.46892244174198405,
+   "rate_first": 0.2303839732888147,
+   "rate_second": 0.35392320534223703
+  }
+ },
+ "consensus": {
+  "decided": 553,
+  "undecided": 46,
+  "hallucinated": 75,
+  "clean": 478
+ }
+}

@@ -66,7 +66,40 @@ def run_hhem(items, args):
     return labels, [{"score": s} for s in scores]
 
 
-JUDGES = {"lettuce": run_lettuce, "hhem": run_hhem}
+def run_lynx(items, args):
+    from halluc.judge_models import load_lynx, lynx_generate, parse_lynx
+    model, tok = load_lynx()
+    idx = [i for i, it in enumerate(items) if it["response"].strip()]
+    triples = [(items[i]["question"], items[i]["passages"], items[i]["response"]) for i in idx]
+    texts = lynx_generate(model, tok, triples, batch_size=args.lynx_batch_size,
+                          progress=lambda a, b: print("  lynx %d/%d" % (a, b)) if a % 40 == 0 or a == b else None)
+    labels, raw = [None] * len(items), [{"verdict": None, "reasoning": ""} for _ in items]
+    for i, text in zip(idx, texts):
+        v = parse_lynx(text)
+        labels[i] = None if v is None else v == "FAIL"
+        raw[i] = {"verdict": v, "reasoning": text[:1500]}
+    print("  lynx: %d answers with no parseable verdict" % sum(1 for i in idx if labels[i] is None))
+    return labels, raw
+
+
+def run_minicheck(items, args):
+    from halluc.judge_models import load_minicheck, minicheck_answer
+    scorer = load_minicheck(cache_dir=args.minicheck_cache)
+    labels, raw = [], []
+    for n, it in enumerate(items):
+        if not it["response"].strip():
+            labels.append(None)
+            raw.append({"min_support": None, "sentences": [], "sentence_support": []})
+            continue
+        lab, r = minicheck_answer(scorer, it["passages"], it["response"], threshold=args.minicheck_threshold)
+        labels.append(lab)
+        raw.append(r)
+        if (n + 1) % 50 == 0:
+            print("  minicheck %d/%d" % (n + 1, len(items)))
+    return labels, raw
+
+
+JUDGES = {"lettuce": run_lettuce, "hhem": run_hhem, "lynx": run_lynx, "minicheck": run_minicheck}
 
 
 def main():
@@ -77,6 +110,9 @@ def main():
     ap.add_argument("--lettuce-model", default="KRLabsOrg/lettucedect-base-modernbert-en-v1")
     ap.add_argument("--lettuce-min-confidence", type=float, default=0.5)
     ap.add_argument("--hhem-threshold", type=float, default=0.5)
+    ap.add_argument("--lynx-batch-size", type=int, default=8)
+    ap.add_argument("--minicheck-threshold", type=float, default=0.5)
+    ap.add_argument("--minicheck-cache", default=os.path.expanduser("~/.cache/minicheck"))
     ap.add_argument("--limit", type=int, default=None)
     args = ap.parse_args()
 
@@ -88,12 +124,19 @@ def main():
     names = [j for j in args.judges.split(",") if j]
     labels, raw = {}, {}
     for name in names:
-        print("running judge: %s" % name)
-        labels[name], raw[name] = JUDGES[name](items, args)
+        # A judge already stored in the input (an earlier run) is reused, so only missing judges are run.
+        if all(name in it.get("judge", {}) for it in items):
+            print("reusing stored judge: %s" % name)
+            labels[name] = [it["judge"][name]["hallucinated"] for it in items]
+            raw[name] = [{k: v for k, v in it["judge"][name].items() if k != "hallucinated"} for it in items]
+        else:
+            print("running judge: %s" % name)
+            labels[name], raw[name] = JUDGES[name](items, args)
         valid = [x for x in labels[name] if x is not None]
         print("  %s: hallucinated %d / %d (%.1f%%)" % (name, sum(valid), len(valid), 100.0 * sum(valid) / max(1, len(valid))))
 
     cons = consensus(labels) if len(names) > 1 else list(labels[names[0]])
+    cons_two = consensus({k: labels[k] for k in ("lettuce", "hhem")}) if "lettuce" in names and "hhem" in names else None
     summary = {"n": len(items), "judges": names, "rates": {}, "pairwise": {}}
     for name in names:
         v = [x for x in labels[name] if x is not None]
@@ -108,6 +151,8 @@ def main():
         for i, it in enumerate(items):
             it["judge"] = {name: {"hallucinated": labels[name][i], **raw[name][i]} for name in names}
             it["judge"]["consensus_hallucinated"] = cons[i]
+            if cons_two is not None:
+                it["judge"]["consensus_lettuce_hhem"] = cons_two[i]  # the original 2-judge label, kept for comparison
             if "lettuce" in names and raw["lettuce"][i]["spans"]:
                 it["strict_spans"] = [list(t) for t in spans_to_tuples(raw["lettuce"][i]["spans"], len(it["response"]))]
             f.write(json.dumps(it) + "\n")

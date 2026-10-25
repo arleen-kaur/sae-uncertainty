@@ -1,0 +1,272 @@
+{
+ "onp_15210_2": {
+  "lettuce": true,
+  "hhem": false,
+  "consensus": null,
+  "stratum": "lettuce_only"
+ },
+ "onp_15542_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_14396_2": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_12300_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_15138_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_15164_1": {
+  "lettuce": true,
+  "hhem": false,
+  "consensus": null,
+  "stratum": "lettuce_only"
+ },
+ "onp_15111_3": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_15371_1": {
+  "lettuce": false,
+  "hhem": true,
+  "consensus": null,
+  "stratum": "hhem_only"
+ },
+ "onp_15576_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_15535_0": {
+  "lettuce": false,
+  "hhem": true,
+  "consensus": null,
+  "stratum": "hhem_only"
+ },
+ "onp_15269_2": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_14392_3": {
+  "lettuce": false,
+  "hhem": true,
+  "consensus": null,
+  "stratum": "hhem_only"
+ },
+ "onp_15143_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_12335_0": {
+  "lettuce": false,
+  "hhem": true,
+  "consensus": null,
+  "stratum": "hhem_only"
+ },
+ "onp_15239_3": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_12372_2": {
+  "lettuce": true,
+  "hhem": false,
+  "consensus": null,
+  "stratum": "lettuce_only"
+ },
+ "onp_15103_3": {
+  "lettuce": true,
+  "hhem": false,
+  "consensus": null,
+  "stratum": "lettuce_only"
+ },
+ "onp_12234_2": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_12264_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_15308_2": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_15540_1": {
+  "lettuce": true,
+  "hhem": false,
+  "consensus": null,
+  "stratum": "lettuce_only"
+ },
+ "onp_15543_2": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_14357_0": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_15243_2": {
+  "lettuce": true,
+  "hhem": false,
+  "consensus": null,
+  "stratum": "lettuce_only"
+ },
+ "onp_14445_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_14319_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_14435_3": {
+  "lettuce": true,
+  "hhem": false,
+  "consensus": null,
+  "stratum": "lettuce_only"
+ },
+ "onp_15092_2": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_12236_2": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_12269_3": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_12182_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_15206_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_15513_3": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_15288_0": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_14468_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_15478_1": {
+  "lettuce": false,
+  "hhem": true,
+  "consensus": null,
+  "stratum": "hhem_only"
+ },
+ "onp_12218_2": {
+  "lettuce": false,
+  "hhem": true,
+  "consensus": null,
+  "stratum": "hhem_only"
+ },
+ "onp_12228_0": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_15149_3": {
+  "lettuce": false,
+  "hhem": true,
+  "consensus": null,
+  "stratum": "hhem_only"
+ },
+ "onp_12167_3": {
+  "lettuce": true,
+  "hhem": false,
+  "consensus": null,
+  "stratum": "lettuce_only"
+ },
+ "onp_14433_0": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_14390_2": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ },
+ "onp_15583_1": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_15107_3": {
+  "lettuce": false,
+  "hhem": false,
+  "consensus": false,
+  "stratum": "both_clean"
+ },
+ "onp_12305_3": {
+  "lettuce": true,
+  "hhem": true,
+  "consensus": true,
+  "stratum": "both_flagged"
+ }
+}
